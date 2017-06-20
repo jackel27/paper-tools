@@ -68,15 +68,24 @@ export default {
     inputOne: function (change) {
       let x = new this.$fraction(change - this.inputTwo)
       this.result = x.toFraction(true)
+      window.localStorage.setItem('startTime', JSON.stringify(this.startTime))
     },
     inputTwo: function (change) {
       let x = new this.$fraction(this.inputOne - change)
       this.result = x.toFraction(true)
+      window.localStorage.setItem('endTime', JSON.stringify(this.endTime))
     }
   },
   mounted () {
     let x = new this.$fraction(242 - 238.5)
     console.log(x.toFraction(true))
+    if (window.localStorage.getItem('startTime') && window.localStorage.getItem('endTime')) {
+      this.startTime = JSON.parse(window.localStorage.getItem('startTime'))
+      this.endTime = JSON.parse(window.localStorage.getItem('endTime'))
+    } else {
+      window.localStorage.setItem('startTime', JSON.stringify(this.startTime))
+      window.localStorage.setItem('endTime', JSON.stringify(this.endTime))
+    }
   },
   data () {
     return {
