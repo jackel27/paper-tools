@@ -27,10 +27,10 @@
         </div>
         <nav class="panel-nav">
           <ul class="tab tab-block">
-            <li class="tab-item" :class="[$route.name === 'Timer' ? 'active' : '']">
+            <li class="tab-item" :class="[$route.name === 'Timer' ? 'active' : '']" >
               <router-link to="Timer">Timer</router-link>
             </li>
-            <li class="tab-item" :class="[$route.name === 'Calculator' ? 'active' : '']">
+            <li class="tab-item" :class="[$route.name === 'Calculator' || $route.name === 'Home' ? 'active' : '']">
               <router-link to="Calculator">Calculator</router-link>
             </li>
             <li class="tab-item" :class="[$route.name === 'Diameter' ? 'active' : '']">

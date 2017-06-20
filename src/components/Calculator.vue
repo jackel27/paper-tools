@@ -66,26 +66,15 @@ export default {
   },
   watch: {
     inputOne: function (change) {
-      let x = new this.$fraction(change - this.inputTwo)
-      this.result = x.toFraction(true)
-      window.localStorage.setItem('startTime', JSON.stringify(this.startTime))
+      this.result = this.toFraction(change - this.inputTwo)
     },
     inputTwo: function (change) {
-      let x = new this.$fraction(this.inputOne - change)
-      this.result = x.toFraction(true)
-      window.localStorage.setItem('endTime', JSON.stringify(this.endTime))
+      this.result = this.toFraction(this.inputOne - change)
     }
   },
   mounted () {
-    let x = new this.$fraction(242 - 238.5)
-    console.log(x.toFraction(true))
-    if (window.localStorage.getItem('startTime') && window.localStorage.getItem('endTime')) {
-      this.startTime = JSON.parse(window.localStorage.getItem('startTime'))
-      this.endTime = JSON.parse(window.localStorage.getItem('endTime'))
-    } else {
-      window.localStorage.setItem('startTime', JSON.stringify(this.startTime))
-      window.localStorage.setItem('endTime', JSON.stringify(this.endTime))
-    }
+    // let x = new this.$fraction(242 - 238.5)
+    // console.log(x.toFraction(true))
   },
   data () {
     return {
@@ -95,6 +84,27 @@ export default {
     }
   },
   methods: {
+    toFraction (flt) {
+      let num = 8
+      let decimal = flt
+      let whole = String(decimal).split('.')[0]
+      decimal = parseFloat('.' + String(decimal).split('.')[1])
+      if (!decimal || decimal < 0.032) {
+        decimal = 0
+      } else if (decimal > 0.968) {
+        decimal = 0
+        whole++
+      } else {
+        num = 16
+        decimal = decimal * num
+        decimal = Math.round(decimal)
+        while (decimal % 2 === 0) {
+          decimal = decimal / 2
+          num = num / 2
+        }
+      }
+      return ((whole === 0) ? '' : whole + '  ') + ((decimal === 0) ? '' : decimal + '/' + num)
+    }
   }
 }
 </script>
