@@ -82,6 +82,30 @@
     created () {
       this.now = moment()
     },
+    mounted () {
+      console.log(window.localStorage.getItem('startTime'), window.localStorage.getItem('endTime'))
+      if (window.localStorage.getItem('startTime') && window.localStorage.getItem('endTime')) {
+        this.startTime = JSON.parse(window.localStorage.getItem('startTime'))
+        this.endTime = JSON.parse(window.localStorage.getItem('endTime'))
+      } else {
+        window.localStorage.setItem('startTime', JSON.stringify(this.startTime))
+        window.localStorage.setItem('endTime', JSON.stringify(this.endTime))
+      }
+    },
+    watch: {
+      startTime: {
+        handler () {
+          window.localStorage.setItem('startTime', JSON.stringify(this.startTime))
+        },
+        deep: true
+      },
+      endTime: {
+        handler () {
+          window.localStorage.setItem('endTime', JSON.stringify(this.endTime))
+        },
+        deep: true
+      }
+    },
     data () {
       return {
         date: '',
@@ -105,25 +129,25 @@
     },
     computed: {
       rep () {
-        let start = moment().utcOffset(0)
-        start.set({
-          hour: this.startTime.HH,
-          minute: this.startTime.mm,
-          second: 0,
-          millisecond: 0
-        })
-        start.toISOString()
-        start.format()
+        // let start = moment().utcOffset(0)
+        // start.set({
+        //   hour: this.startTime.HH,
+        //   minute: this.startTime.mm,
+        //   second: 0,
+        //   millisecond: 0
+        // })
+        // start.toISOString()
+        // start.format()
 
-        let end = moment().utcOffset(0)
-        end.set({
-          hour: this.endTime.HH,
-          minute: this.endTime.mm,
-          second: 0,
-          millisecond: 0
-        })
-        end.toISOString()
-        end.format()
+        // let end = moment().utcOffset(0)
+        // end.set({
+        //   hour: this.endTime.HH,
+        //   minute: this.endTime.mm,
+        //   second: 0,
+        //   millisecond: 0
+        // })
+        // end.toISOString()
+        // end.format()
       },
       generation () {
         let start = moment().utcOffset(0)
@@ -149,7 +173,7 @@
         let times = []
 
         for (let i = 1; i < 51; i++) {
-          console.log(diff)
+          // console.log(diff)
           let iteration = moment(end).add(diff * i)
 
           times.push({
@@ -157,7 +181,6 @@
             human: moment(iteration).format('LTS')
           })
         }
-
         return times
       }
     },
