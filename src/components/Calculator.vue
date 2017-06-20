@@ -30,12 +30,44 @@
     text-align: center;
     padding-top: 20px;
   }
+  .form-select {
+    font-size: 6.6rem;
+    height: 12rem;
+    padding: 0!important;
+  }
+  select {
+    height: 10rem!important;
+    line-height: 10rem!important;
+    width: 70vw!important;
+    justify-content: center;
+    display: flex;
+  }
+  .input-group-addon {
+    font-size: 5rem!important;
+    /* text-align: center; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 </style>
 
 <template>
   <div class="Calculator">
     <form class="form-horizontal">
     <h1 class="title">Trim Difference in Fractions</h1>
+    <div class="columns">
+      <div class="column col-12">
+        <div class="input-group">
+        <span class="input-group-addon addon-lg">Select max Precision:</span>
+          <select class="form-select select-lg" v-model="precision">
+            <option selected value="16">16ths</option>
+            <option value="32">32nds</option>
+          </select>
+
+        </div>
+      </div>
+    </div>
+
       <div class="form-group">
         <div class="col-1"></div>
         <div class="col-4">
@@ -65,6 +97,9 @@ export default {
   components: {
   },
   watch: {
+    precision: function () {
+      this.result = this.toFraction(this.inputOne - this.inputTwo)
+    },
     inputOne: function (change) {
       this.result = this.toFraction(change - this.inputTwo)
     },
@@ -78,6 +113,7 @@ export default {
   },
   data () {
     return {
+      precision: '16',
       inputOne: '',
       inputTwo: '',
       result: ''
@@ -95,7 +131,7 @@ export default {
         decimal = 0
         whole++
       } else {
-        num = 16
+        num = this.precision
         decimal = decimal * num
         decimal = Math.round(decimal)
         while (decimal % 2 === 0) {
